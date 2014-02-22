@@ -31,6 +31,7 @@ sub testUpdate {
     $sourcefile->update(1, 2);
 }
 
+# TODO move this function to a new test script
 sub fillRRD {
     my $sourcefile = SourceFile->new(filepath => "foo.c");
     my $time = time;
@@ -39,7 +40,8 @@ sub fillRRD {
     foreach(1..100) {
         $time = time + $_ * 3600;
         $loc++ if($_ % 3 == 0);
-        $cc++  if($_ % 7 == 0);
+        $cc++  if($_ % 4 == 0);
+        $loc-- if($_ % 8 == 0);
         $cc--  if($_ % 9 == 0);
         RRDs::update($sourcefile->{'rrdfile'}, "--template", "loc:cc", "$time:$loc:$cc");
         my $ERROR = RRDs::error;
@@ -47,7 +49,14 @@ sub fillRRD {
     }
 }
 
+# TODO move this function to a new test script
+sub drawImage {
+    my $sourcefile = SourceFile->new(filepath => "foo.c");
+    $sourcefile->graph();
+}
+
 createProperRRDFilename();
 createRRDFile();
 testUpdate();
 fillRRD();
+drawImage();
