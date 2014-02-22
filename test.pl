@@ -31,6 +31,23 @@ sub testUpdate {
     $sourcefile->update(1, 2);
 }
 
+sub fillRRD {
+    my $sourcefile = SourceFile->new(filepath => "foo.c");
+    my $time = time;
+    my $loc = 5;
+    my $cc = 10;
+    foreach(1..100) {
+        $time = time + $_ * 3600;
+        $loc++ if($_ % 3 == 0);
+        $cc++  if($_ % 7 == 0);
+        $cc--  if($_ % 9 == 0);
+        RRDs::update($sourcefile->{'rrdfile'}, "--template", "loc:cc", "$time:$loc:$cc");
+        my $ERROR = RRDs::error;
+        die "$ERROR\n" if($ERROR);
+    }
+}
+
 createProperRRDFilename();
 createRRDFile();
 testUpdate();
+fillRRD();
