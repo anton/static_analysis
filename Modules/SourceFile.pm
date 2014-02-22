@@ -41,4 +41,11 @@ sub generateRRDFilename {
     $self->{'rrdfile'} = "data/" . $self->{'rrdfile'};
 }
 
+sub update {
+    my ($self, $loc, $cc) = @_;
+    RRDs::update($self->{'rrdfile'}, "--template", "loc:cc", "N:$loc:$cc");
+    my $ERROR = RRDs::error;
+    die "$ERROR\n" if($ERROR);
+}
+
 1;

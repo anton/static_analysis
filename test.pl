@@ -26,5 +26,11 @@ sub createRRDFile {
     $s->createRRD();
 }
 
+sub testUpdate {
+    my $sourcefile = SourceFile->new(filepath => "foo.c");
+    $sourcefile->update(1, 2);
+}
+
 createProperRRDFilename();
 createRRDFile();
+testUpdate();
