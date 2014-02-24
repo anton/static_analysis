@@ -68,4 +68,24 @@ sub draw {
     die "$ERROR\n" if ($ERROR = RRDs::error);
 }
 
+sub year {
+    $self->{'start'} = "-1year";
+}
+
+sub six_months {
+    $self->{'start'} = "-6month";
+}
+
+sub month {
+    $self->{'start'} = "-1month";
+}
+
+sub week {
+    $self->{'start'} = "-1week";
+}
+
+sub day {
+    $self->{'start'} = "-1day";
+}
+
 1;
