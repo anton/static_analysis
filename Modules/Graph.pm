@@ -16,6 +16,12 @@ sub new {
 sub add_rrd {
     my $self = shift;
     my $rrd = shift;
+    foreach(@{$self{'rrds'}}) {
+        if ($_->{'rrdfile'} =~ /$rrd->{'rrdfile'}/) {
+            return;
+        }
+    }
+
     push(@{$self{'rrds'}}, $rrd);
 }
 
