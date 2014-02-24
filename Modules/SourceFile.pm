@@ -51,4 +51,11 @@ sub update {
     die "ERROR: $ERROR\n" if($ERROR);
 }
 
+sub update_n {
+    my ($self, $loc, $cc, $time) = @_;
+    RRDs::update($self->{'rrdfile'}, "--template", "loc:cc", "$time:$loc:$cc");
+    my $ERROR = RRDs::error;
+    die "ERROR: $ERROR\n" if($ERROR);
+}
+
 1;
