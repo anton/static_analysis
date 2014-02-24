@@ -30,4 +30,6 @@ foreach(1..10) {
     die "$ERROR\n" if($ERROR);
 }
 
+$graph->{'start'} = "now";
+$graph->{'end'} = "+72hour";
 $graph->draw();

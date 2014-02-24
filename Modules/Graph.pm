@@ -6,6 +6,8 @@ sub new {
     my $self = {};
     $self->{'graph'} = $params{'image'};
     $self->{'type'} = $params{'type'}; # cc or loc
+    $self->{'start'} = "-1week";
+    $self->{'end'} = "now";
     bless $self, $class;
     $self->create_color_list();
     return $self;
@@ -28,8 +30,8 @@ sub create_color_list {
 sub draw {
     my $self = shift;
 
-    my @start = ('-s','now');
-    my @end = ('-e','+72hour');
+    my @start = ('-s', $self->{'start'});
+    my @end   = ('-e', $self->{'end'});
     my @arg;
     my $col;
     my $name;
