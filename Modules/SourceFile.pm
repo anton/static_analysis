@@ -13,7 +13,8 @@ sub new {
 sub createRRD {
     my $self = shift;
     my $rrd = $self->{'rrdfile'};
-    die "rrd not specified" unless($rrd);
+
+    die "ERROR: rrd not specified" unless($rrd);
 
     return if (-f $rrd);
 
@@ -29,7 +30,7 @@ sub createRRD {
             "RRA:AVERAGE:0.5:100:876",
     );
     my $ERROR = RRDs::error;
-    die "$0: unable to create '$rrd': $ERROR\n" if $ERROR;
+    die "ERROR: unable to create '$rrd': $ERROR\n" if $ERROR;
 }
 
 sub generateRRDFilename {
@@ -45,7 +46,7 @@ sub update {
     my ($self, $loc, $cc) = @_;
     RRDs::update($self->{'rrdfile'}, "--template", "loc:cc", "N:$loc:$cc");
     my $ERROR = RRDs::error;
-    die "$ERROR\n" if($ERROR);
+    die "ERROR: $ERROR\n" if($ERROR);
 }
 
 1;

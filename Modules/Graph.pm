@@ -62,7 +62,7 @@ sub draw {
     } elsif ($type =~ /cc/) {
         $title = "Cyclomatic complexity";
     } else {
-        die "$type: wrong type";
+        die "ERROR: $type: wrong type";
     }
 
     foreach(@{$self{'rrds'}}) {
@@ -84,7 +84,7 @@ sub draw {
         "-w", "800",
         "-h", "600",
         @arg);
-    die "$ERROR\n" if ($ERROR = RRDs::error);
+    die "ERROR: $ERROR\n" if ($ERROR = RRDs::error);
 }
 
 sub year {
