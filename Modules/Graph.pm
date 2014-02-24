@@ -82,22 +82,27 @@ sub draw {
 }
 
 sub year {
+    my $self = shift;
     $self->{'start'} = "-1year";
 }
 
 sub six_months {
+    my $self = shift;
     $self->{'start'} = "-6month";
 }
 
 sub month {
+    my $self = shift;
     $self->{'start'} = "-1month";
 }
 
 sub week {
+    my $self = shift;
     $self->{'start'} = "-1week";
 }
 
 sub day {
+    my $self = shift;
     $self->{'start'} = "-1day";
 }
 
