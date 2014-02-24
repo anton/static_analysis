@@ -13,5 +13,6 @@ my @commits = $git->get_intermediate_commits();
 foreach (@commits) {
     print $_;
     $git->checkout($_);
+    print $git->get_commit_time(), "\n";
     print join("\n", $git->list_changed_files()), "\n\n";
 }

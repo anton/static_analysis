@@ -52,4 +52,14 @@ sub get_intermediate_commits {
     return @ret;
 }
 
+sub get_commit_time {
+    my $self = shift;
+    my $dir = getcwd;
+    chdir $self->{'repo_path'};
+    my $timestamp = `git show -s --format=%ct`;
+    $timestamp =~ s/\n//;
+    chdir $dir;
+    return $timestamp;
+}
+
 1;
