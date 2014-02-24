@@ -7,7 +7,6 @@ sub new {
     $self->{'filepath'} = $params{'filepath'};
     bless $self, $class;
     $self->generateRRDFilename();
-    $self->generateIMGFilename();
     return $self;
 }
 
@@ -42,63 +41,11 @@ sub generateRRDFilename {
     $self->{'rrdfile'} = "data/" . $self->{'rrdfile'};
 }
 
-# TODO remove this function
-sub generateIMGFilename {
-    my $self = shift;
-    $self->{'graph'} = $self->{'filepath'};
-    $self->{'graph'} =~ s/\./_/g;
-    $self->{'graph'} =~ s/\//_/g;
-    $self->{'graph'} .= '.png';
-    $self->{'graph'} = "img/" . $self->{'graph'};
-}
-
 sub update {
     my ($self, $loc, $cc) = @_;
     RRDs::update($self->{'rrdfile'}, "--template", "loc:cc", "N:$loc:$cc");
     my $ERROR = RRDs::error;
     die "$ERROR\n" if($ERROR);
-}
-
-# TODO move this function elsewhere
-sub graph {
-    use Digest::MD5;
-    my @colorlist = (
-            "#FFFF00",
-            "#00a0a0",
-            "#a000a0",
-            "#0000a0",
-            );
-
-    my $self = shift;
-    my @start = ('-s','now');
-    my @end = ('-e','+72hour');
-    my @arg;
-    my $col;
-    my $name;
-
-    $col = pop @colorlist;
-    $name = "loc".Digest::MD5::md5_hex($self->{'rrdfile'});
-    push @arg,
-         "DEF:$name=$self->{'rrdfile'}:loc:AVERAGE",
-         "LINE2:$name$col:$self->{'filepath'} loc",
-         ;
-
-    $col = pop @colorlist;
-    $name = "cc".Digest::MD5::md5_hex($self->{'rrdfile'});
-    push @arg,
-         "DEF:$name=$self->{'rrdfile'}:cc:AVERAGE",
-         "LINE2:$name$col:$self->{'filepath'}  cc",
-         ;
-
-    RRDs::graph("$self->{'graph'}",
-        "--title","Title",
-#        "--lazy",
-        @end,
-        @start,
-        "-w", "800",
-        "-h", "600",
-        @arg);
-    die "$ERROR\n" if ($ERROR = RRDs::error);
 }
 
 1;
