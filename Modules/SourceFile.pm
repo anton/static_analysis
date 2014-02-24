@@ -1,5 +1,7 @@
 package SourceFile;
 
+use Cwd;
+
 sub new {
     my $class = shift;
     my %params = @_;
@@ -39,7 +41,7 @@ sub generateRRDFilename {
     $self->{'rrdfile'} =~ s/\./_/g;
     $self->{'rrdfile'} =~ s/\//_/g;
     $self->{'rrdfile'} .= '.rrd';
-    $self->{'rrdfile'} = "data/" . $self->{'rrdfile'};
+    $self->{'rrdfile'} = getcwd . "/data/" . $self->{'rrdfile'};
 }
 
 sub update {

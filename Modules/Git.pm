@@ -1,5 +1,7 @@
 package Git;
 
+use Cwd;
+
 sub new {
     my $class = shift;
     my %params = @_;
@@ -24,7 +26,7 @@ sub list_changed_files {
     chdir $self->{'repo_path'};
     foreach(`git show --numstat`) {
         if (/^[0-9]+[ \t]+[0-9]+[ \t]+(.*?)$/) {
-            push @ret, $1;
+            push @ret, $self->{'repo_path'}."/".$1;
         }
     }
     chdir $dir;
