@@ -22,7 +22,20 @@ sub add_rrd {
 sub create_color_list {
     my $self = shift;
     push(@{$self{'color'}}, "#FFFF00");
-    push(@{$self{'color'}}, "#00a0a0");
+    foreach(0..9) {
+        my $i = $_;
+        push(@{$self{'color'}}, "#f0f0${i}0");
+        push(@{$self{'color'}}, "#f0${i}0f0");
+        push(@{$self{'color'}}, "#${i}0f0f0");
+
+        push(@{$self{'color'}}, "#a0a0${i}0");
+        push(@{$self{'color'}}, "#a0${i}0a0");
+        push(@{$self{'color'}}, "#${i}0a0a0");
+
+        push(@{$self{'color'}}, "#0000${i}0");
+        push(@{$self{'color'}}, "#00${i}000");
+        push(@{$self{'color'}}, "#${i}00000");
+    }
     push(@{$self{'color'}}, "#a000a0");
     push(@{$self{'color'}}, "#00a0a0");
 }
