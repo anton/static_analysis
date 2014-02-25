@@ -15,13 +15,14 @@ sub new {
 sub add_rrd {
     my $self = shift;
     my $rrd = shift;
-    foreach(@{$self{'rrds'}}) {
+    my $type = $self->{'type'};
+    foreach(@{$self{"rrds_$type"}}) {
         if ($_->{'rrdfile'} =~ /$rrd->{'rrdfile'}/) {
             return;
         }
     }
 
-    push(@{$self{'rrds'}}, $rrd);
+    push(@{$self{"rrds_$type"}}, $rrd);
 }
 
 sub random_color {
@@ -50,7 +51,7 @@ sub draw {
         die "ERROR: $type: wrong type";
     }
 
-    foreach(@{$self{'rrds'}}) {
+    foreach(@{$self{"rrds_$type"}}) {
         my $rrd = $_;
 
         my $col = $self->random_color();
