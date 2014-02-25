@@ -9,7 +9,6 @@ sub new {
     $self->{'start'} = "-1week";
     $self->{'end'} = "now";
     bless $self, $class;
-    $self->create_color_list();
     return $self;
 }
 
@@ -25,25 +24,12 @@ sub add_rrd {
     push(@{$self{'rrds'}}, $rrd);
 }
 
-sub create_color_list {
+sub random_color {
     my $self = shift;
-    push(@{$self{'color'}}, "#FFFF00");
-    foreach(0..9) {
-        my $i = $_;
-        push(@{$self{'color'}}, "#f0f0${i}0");
-        push(@{$self{'color'}}, "#f0${i}0f0");
-        push(@{$self{'color'}}, "#${i}0f0f0");
-
-        push(@{$self{'color'}}, "#a0a0${i}0");
-        push(@{$self{'color'}}, "#a0${i}0a0");
-        push(@{$self{'color'}}, "#${i}0a0a0");
-
-        push(@{$self{'color'}}, "#0000${i}0");
-        push(@{$self{'color'}}, "#00${i}000");
-        push(@{$self{'color'}}, "#${i}00000");
-    }
-    push(@{$self{'color'}}, "#a000a0");
-    push(@{$self{'color'}}, "#00a0a0");
+    return sprintf("#%x%x%x%x%x%x",
+    int(rand(16)), int(rand(16)),
+    int(rand(16)), int(rand(16)),
+    int(rand(16)), int(rand(16)));
 }
 
 sub draw {
@@ -52,7 +38,6 @@ sub draw {
     my @start = ('-s', $self->{'start'});
     my @end   = ('-e', $self->{'end'});
     my @arg;
-    my $col;
     my $name;
     my $type = $self->{'type'};
 
@@ -68,7 +53,7 @@ sub draw {
     foreach(@{$self{'rrds'}}) {
         my $rrd = $_;
 
-        $col = pop(@{$self{'color'}});
+        my $col = $self->random_color();
         $name = Digest::MD5::md5_hex($rrd->{'rrdfile'});
         push @arg,
              "DEF:$name=$rrd->{'rrdfile'}:$type:AVERAGE",
