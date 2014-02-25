@@ -30,4 +30,11 @@ sub append {
     close(FILE);
 }
 
+sub append_n {
+    my ($self, $time, $val) = @_;
+    open(FILE, ">>", $self->{'datfile'});
+    printf(FILE "%d %d\n", $time, $val);
+    close(FILE);
+}
+
 1;
