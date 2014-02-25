@@ -19,6 +19,15 @@ sub checkout {
     chdir $dir;
 }
 
+sub pull {
+    my $self = shift;
+    my $commit = shift;
+    my $dir = getcwd;
+    chdir $self->{'repo_path'};
+    system("git pull");
+    chdir $dir;
+}
+
 sub list_changed_files {
     my $self = shift;
     my $dir = getcwd;
