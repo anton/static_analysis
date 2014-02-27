@@ -59,6 +59,8 @@ sub draw {
         push @arg,
              "DEF:$name=$rrd->{'rrdfile'}:$type:AVERAGE",
              "LINE2:$name$col:$rrd->{'filepath'}",
+             "GPRINT:$name:LAST:%5.0lf",
+             "COMMENT: \\n",
              ;
     }
 
